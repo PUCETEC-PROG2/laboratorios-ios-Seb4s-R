@@ -9,9 +9,23 @@ import SwiftUI
 struct RepoList: View {
     var body: some View {
         NavigationStack{
-            VStack{
-                Text("Lista de repositorios")
-            } //para declarar una columna V de vertical
+            ScrollView{
+                VStack{
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+                RepoItem()
+            } }//para declarar una columna V de vertical
             .navigationTitle("Repositorios")
             .navigationBarTitleDisplayMode(.inline)
         }
