@@ -8,32 +8,45 @@
 import SwiftUI
 
 struct RepoItem: View {
+
+    let repository: Repository
+
     var body: some View {
-        HStack(alignment: .top, spacing: 16) {
-            Image(uiImage: .gitCar)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 80, height: 80)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+        HStack {
+            AsyncImage(url: URL(string: repository.owner.avatarUrl)) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                Image(uiImage: .gitCar)
+                    .resizable()
+                    .scaledToFit()
+            }
+            .frame(width: 80, height: 80)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Nombre del repositorio")
-                    .font(.headline)
+                Text(repository.name)
+                    .font(.title2)
                     .foregroundStyle(.accent)
 
-                Text("Este es un texto de ejemplo para mostrar la descripción del repositorio.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(2)
-
-                HStack {
-                    Text("Lenguaje:")
-                        .fontWeight(.semibold)
-
-                    Text("Swift")
-                        .foregroundStyle(.blue)
+                if let description = repository.description {
+                    Text(description)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
                 }
-                .font(.caption)
+
+                if let language = repository.language {
+                    HStack {
+                        Text("Lenguaje:")
+                            .fontWeight(.semibold)
+
+                        Text(language)
+                            .foregroundStyle(.blue)
+                    }
+                    .font(.caption)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -46,6 +59,6 @@ struct RepoItem: View {
 }
 
 #Preview {
-    RepoItem()
+    RepoItem(repository: Repository.sampleData[0])
         .padding()
 }
