@@ -28,12 +28,20 @@ class GithubService {
                 "sort": "created",
                 "direction": "desc",
                 "per_page": 100,
-                "affiliation": "owner"
+                "affiliation": "owner",
+                "t" : NSDate().timeIntervalSince1970
             ],
             headers: headers
         ).validate(statusCode: 200..<300)
             .serializingDecodable([Repository].self)
             .response
+        
+               
+        if let data = response.data,
+            let json = String(data: data, encoding: .utf8) {
+            print("**** Respuesta al obtener repositorio: ****")
+            print(json)
+        }
         
         switch response.result {
         case .success(let repositories):
@@ -44,6 +52,37 @@ class GithubService {
             throw error
         }
     }
+    
+    func createRepository (name: String, description: String) async throws -> Repository {
+        let response = await AF.request(
+            "\(baseURL)/user/repos",
+            method: .post,
+            parameters: [
+                "name": name,
+                "description": description
+            ],
+            headers: headers
+        ).validate(statusCode: 200..<300)
+            .serializingDecodable(Repository.self)
+            .response
+        
+        if let data = response.data,
+            let json = String(data: data, encoding: .utf8) {
+            print("**** Respuesta al crear repositorio ****")
+            print(json)
+        }
+        
+        switch response.result {
+        case .success(let repositories):
+            return repositories
+        case .failure(let error):
+            print("Error en el servicio de Github")
+            print(error)
+            throw error
+        }
+    }
+    
+    
 }
 
 
