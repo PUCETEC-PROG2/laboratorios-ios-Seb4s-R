@@ -42,7 +42,7 @@ struct Repository: Identifiable, Decodable {
         Repository(
             id: 3,
             name: "PixelArtist",
-            description: "An intuitive pixel art editor for game developers.",
+            description: "An intuitive pixel asdfsdfrt editor for game developers.",
             language: "JavaScript",
             owner: GithubUser(
                 login: "mike_lee",
